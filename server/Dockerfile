@@ -4,13 +4,20 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
 
 RUN apt-get update && apt-get install -y \
-    libgl1 libglib2.0-0 && rm -rf /var/lib/apt/lists/*
+    curl ca-certificates libgl1 libglib2.0-0 && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
 COPY server/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# --- Скачиваем модели из GitHub Releases ---
+RUN mkdir -p models \
+ && curl -L "https://github.com/Flash4bk/tree-analyzer/releases/download/v1-models/tree_model.pt" -o models/tree_model.pt \
+ && curl -L "https://github.com/Flash4bk/tree-analyzer/releases/download/v1-models/stick_model.pt" -o models/stick_model.pt \
+ && curl -L "https://github.com/Flash4bk/tree-analyzer/releases/download/v1-models/classifier.pth" -o models/classifier.pth
+
+# --- Копируем код ---
 COPY server .
 
 ENV TREE_MODEL_PATH=models/tree_model.pt
