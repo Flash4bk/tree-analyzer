@@ -12,7 +12,8 @@ WORKDIR /app
 COPY server/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY server .    # сюда попадут main.py, inference.py, models/ и т.д.
+COPY server .
+
 
 ENV TREE_MODEL_PATH=models/tree_model.pt
 ENV STICK_MODEL_PATH=models/stick_model.pt
