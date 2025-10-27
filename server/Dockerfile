@@ -1,5 +1,3 @@
-# server/Dockerfile
-
 FROM python:3.10-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
@@ -10,11 +8,12 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /app
 
-# Указываем полный путь к requirements.txt относительно корня репо
+# ВАЖНО: берём файлы именно из папки server/
 COPY server/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY server .
+COPY server .    # сюда попадут main.py, inference.py, models/ и т.д.
+
 ENV TREE_MODEL_PATH=models/tree_model.pt
 ENV STICK_MODEL_PATH=models/stick_model.pt
 ENV CLASSIFIER_PATH=models/classifier.pth
