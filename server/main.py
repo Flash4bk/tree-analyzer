@@ -1,12 +1,14 @@
 from fastapi import FastAPI, UploadFile, File, Form
 from typing import Optional
-from inference import analyze_image  # должен лежать в server/inference.py
+from inference import analyze_image
 
 app = FastAPI(title="Tree Analyzer API")
+
 
 @app.get("/health")
 def health():
     return {"ok": True}
+
 
 @app.post("/analyze")
 async def analyze(

@@ -8,12 +8,10 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /app
 
-# ВАЖНО: берём файлы именно из папки server/
 COPY server/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY server .
-
 
 ENV TREE_MODEL_PATH=models/tree_model.pt
 ENV STICK_MODEL_PATH=models/stick_model.pt
